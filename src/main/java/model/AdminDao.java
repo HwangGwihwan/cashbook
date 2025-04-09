@@ -3,7 +3,7 @@ package model;
 import java.sql.*;
 
 public class AdminDao {
-	public boolean login(String pw) throws ClassNotFoundException, SQLException { // 로그인 sql
+	public boolean login(String pw) throws ClassNotFoundException, SQLException { // 로그인
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -24,7 +24,7 @@ public class AdminDao {
 		}
 	}
 	
-	public int updateAdminPw(String pw, String newpw) throws ClassNotFoundException, SQLException {
+	public int updateAdminPw(String pw, String newpw) throws ClassNotFoundException, SQLException { // 비밀번호 변경
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
