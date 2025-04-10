@@ -4,7 +4,7 @@
 	String login = (String)(session.getAttribute("login"));
 	
 	if (login == null) { // 로그아웃 상태
-		response.sendRedirect("/cashbook/loginForm.jsp");
+		response.sendRedirect("/cashbook/login/loginForm.jsp");
 		return;
 	}
 
@@ -17,7 +17,7 @@
 	System.out.println("updateAdminPwAction#newpw2: " + newpw2);
 	
 	if (!newpw1.equals(newpw2)) { // 바꾼 비밀번호 확인이 맞지 않음
-		response.sendRedirect("/cashbook/updateAdminPwForm.jsp");
+		response.sendRedirect("/cashbook/login/updateAdminPwForm.jsp");
 		return;
 	}
 	
@@ -25,8 +25,8 @@
 	int row = adminDao.updateAdminPw(pw, newpw1);
 	
 	if (row == 0) { // 비밀번호 변경 실패
-		response.sendRedirect("/cashbook/updateAdminPwForm.jsp");
+		response.sendRedirect("/cashbook/login/updateAdminPwForm.jsp");
 	} else { // 비밀번호 변경 성공
-		response.sendRedirect("/cashbook/logout.jsp");
+		response.sendRedirect("/cashbook/login/logout.jsp");
 	}
 %>

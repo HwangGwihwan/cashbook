@@ -6,7 +6,7 @@
 	String login = (String)(session.getAttribute("login"));
 
 	if (login == null) { // 로그아웃 상태
-		response.sendRedirect("/cashbook/loginForm.jsp");
+		response.sendRedirect("/cashbook/login/loginForm.jsp");
 		return;
 	}
 	
@@ -179,10 +179,10 @@
 	</head>
 	<body>
 	    <h1>카테고리목록</h1>
-	    	<a href="/cashbook/insertCategoryForm.jsp" class="category-link">카테고리 추가</a>
+	    	<a href="/cashbook/category/insertCategoryForm.jsp" class="category-link">카테고리 추가</a>
 	    <div class="top-links">
-	        <a href="/cashbook/logout.jsp">로그아웃</a>
-	        <a href="/cashbook/updateAdminPwForm.jsp">비밀번호 수정</a>
+	        <a href="/cashbook/login/logout.jsp">로그아웃</a>
+	        <a href="/cashbook/login/updateAdminPwForm.jsp">비밀번호 수정</a>
 	    </div>
 	    <table>
 	    	<tr>
@@ -199,7 +199,7 @@
 	    				<td><%=c.getCateoryNo()%></td>
 	    				<td><%=c.getKind()%></td>
 	    				<td><%=c.getTitle()%></td>
-	    				<td><a href="/cashbook/updateCategoryTitleForm.jsp?categoryNo=<%=c.getCateoryNo()%>">수정</a></td>
+	    				<td><a href="/cashbook/category/updateCategoryTitleForm.jsp?categoryNo=<%=c.getCateoryNo()%>">수정</a></td>
 	    				<td>
 	    				<% 
 	    					if(c.getCount() > 0) { // cash가 있음 -> 삭제불가
@@ -208,7 +208,7 @@
 	    				<%
 	    				} else {
 	    				%>
-	    						<a href="/cashbook/deleteCategory.jsp?categoryNo=<%=c.getCateoryNo()%>">삭제</a>
+	    						<a href="/cashbook/category/deleteCategory.jsp?categoryNo=<%=c.getCateoryNo()%>">삭제</a>
 	    				<%
 	    				}
 	    				%>
@@ -224,7 +224,7 @@
 		    <%
 				if (currentPage > 1) {
 			%>
-					<a href='/cashbook/categoryList.jsp?currentPage=<%=currentPage - 1%>'>이전</a>
+					<a href='/cashbook/category/categoryList.jsp?currentPage=<%=currentPage - 1%>'>이전</a>
 			<%
 				} else {
 			%>
@@ -234,7 +234,7 @@
 			
 				if (currentPage < lastPage) {
 			%>
-					<a href='/cashbook/categoryList.jsp?currentPage=<%=currentPage + 1%>'>다음</a>
+					<a href='/cashbook/category/categoryList.jsp?currentPage=<%=currentPage + 1%>'>다음</a>
 			<%
 				} else {
 			%>

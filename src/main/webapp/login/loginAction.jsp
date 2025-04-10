@@ -8,9 +8,9 @@
 	if (adminDao.login(pw)) { // 로그인 성공
 		System.out.println("로그인 성공");
 		session.setAttribute("login", "ok");
-		response.sendRedirect("/cashbook/categoryList.jsp");
+		response.sendRedirect("/cashbook/category/categoryList.jsp");
 	} else { // 로그인 실패
 		System.out.println("로그인 실패");
-		response.sendRedirect("/cashbook/loginForm.jsp");
+		response.sendRedirect("/cashbook/login/loginForm.jsp");
 	}
 %>

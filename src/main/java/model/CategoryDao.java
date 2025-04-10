@@ -118,7 +118,7 @@ public class CategoryDao {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		String sql = "delet from category where category_no = ?";
+		String sql = "delete from category where category_no = ?";
 		
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
 		stmt = conn.prepareStatement(sql);

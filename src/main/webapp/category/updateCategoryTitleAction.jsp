@@ -6,7 +6,7 @@
 	String login = (String)(session.getAttribute("login"));
 	
 	if (login == null) { // 로그아웃 상태
-		response.sendRedirect("/cashbook/loginForm.jsp");
+		response.sendRedirect("/cashbook/login/loginForm.jsp");
 		return;
 	}
 	
@@ -21,5 +21,5 @@
 	CategoryDao categoryDao = new CategoryDao();
 	categoryDao.updateCategoryTitle(categoryNo, title);
 	
-	response.sendRedirect("/cashbook/categoryList.jsp");
+	response.sendRedirect("/cashbook/category/categoryList.jsp");
 %>
