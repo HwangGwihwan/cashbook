@@ -56,12 +56,17 @@
 	            color: #4CAF50;
 	            text-align: center;
 	        }
-	
+
+			.category-actions {
+			    position: absolute;
+			    top: 20px;
+			    left: 20px;
+			    display: flex;
+			    gap: 10px;
+			}
+
 	        /* 카테고리 추가 링크 왼쪽 위 배치 */
 	        .category-link {
-	            position: absolute;
-	            top: 20px;
-	            left: 20px;
 	            font-size: 16px;
 	            color: #4CAF50;
 	            text-decoration: none;
@@ -76,7 +81,23 @@
 	            background-color: #4CAF50;
 	            color: white;
 	        }
-	
+	        
+			.calendar-link {
+			    font-size: 16px;
+			    color: #4CAF50;
+			    text-decoration: none;
+			    padding: 10px 20px;
+			    border-radius: 4px;
+			    background-color: #fff;
+			    border: 1px solid #4CAF50;
+			    transition: background-color 0.3s, color 0.3s;
+			}
+			
+			.calendar-link:hover {
+			    background-color: #4CAF50;
+			    color: white;
+			}
+			
 	        /* 로그아웃, 비밀번호 수정 링크 오른쪽 위 배치 */
 	        .top-links {
 	            position: absolute;
@@ -179,11 +200,14 @@
 	</head>
 	<body>
 	    <h1>카테고리목록</h1>
-	    	<a href="/cashbook/category/insertCategoryForm.jsp" class="category-link">카테고리 추가</a>
-	    <div class="top-links">
-	        <a href="/cashbook/login/logout.jsp">로그아웃</a>
-	        <a href="/cashbook/login/updateAdminPwForm.jsp">비밀번호 수정</a>
-	    </div>
+	   		<div class="category-actions">
+	   			<a href="/cashbook/category/insertCategoryForm.jsp" class="category-link">카테고리 추가</a>
+	    		<a href="/cashbook/monthList.jsp" class="calendar-link">달력</a>
+	   		</div>
+		    <div class="top-links">
+		        <a href="/cashbook/login/logout.jsp">로그아웃</a>
+		        <a href="/cashbook/login/updateAdminPwForm.jsp">비밀번호 수정</a>
+		    </div>
 	    <table>
 	    	<tr>
 	    		<th>번호</th>

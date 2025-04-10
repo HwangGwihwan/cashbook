@@ -5,6 +5,29 @@ import java.util.*;
 import dto.*;
 
 public class CategoryDao {
+	public int checkCategory(Category c) throws ClassNotFoundException, SQLException { // 수입/지출에 같은 항목이 있는지 확인
+		int check = 0;
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select * from category where kind = ? and title = ?";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, c.getKind());
+		stmt.setString(2, c.getTitle());
+		rs = stmt.executeQuery();
+		
+		if (rs.next()) {
+			check = 1;
+		}
+		
+		conn.close();
+		return check;
+	}
+	
 	public void insertCategory(Category c) throws ClassNotFoundException, SQLException { // 삽입
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
@@ -79,7 +102,7 @@ public class CategoryDao {
 		return c;
 	}
 	
-	public int totalRow() throws ClassNotFoundException, SQLException {
+	public int totalRow() throws ClassNotFoundException, SQLException { // 전체 행 구하기
 		int total = 0;
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -96,6 +119,7 @@ public class CategoryDao {
 			total = rs.getInt("cnt");
 		}
 		
+		conn.close();
 		return total;
 	}
 	

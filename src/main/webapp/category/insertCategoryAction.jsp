@@ -20,7 +20,12 @@
 	c.setTitle(title);
 	
 	CategoryDao categoryDao = new CategoryDao();
-	categoryDao.insertCategory(c);
+	int check = categoryDao.checkCategory(c);
 	
+	if (check == 0) { // 중복 없음
+		categoryDao.insertCategory(c);
+	}
+	// 중복 있을 경우에는 삽입x
+
 	response.sendRedirect("/cashbook/category/categoryList.jsp");
 %>
