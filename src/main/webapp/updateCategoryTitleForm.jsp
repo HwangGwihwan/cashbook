@@ -11,7 +11,7 @@
 	}
 	
 	int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-	System.out.print("updateCategoryTitleForm#categoryNo: " + categoryNo);
+	System.out.println("updateCategoryTitleForm#categoryNo: " + categoryNo);
 
 	CategoryDao categoryDao = new CategoryDao();
 	Category c = categoryDao.selectCategoryOne(categoryNo);
@@ -51,20 +51,21 @@
 	
 	        /* 폼 스타일 */
 	        form {
-	            background-color: #fff;
-	            padding: 20px;
-	            border-radius: 8px;
-	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	            width: 100%;
-	            max-width: 600px;
-	            box-sizing: border-box;
-	        }
-	
-	        table {
-	            width: 100%;
-	            margin-bottom: 20px;
-	            border-collapse: collapse;
-	        }
+			    background-color: #fff;
+			    padding: 20px;
+			    border-radius: 8px;
+			    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			    width: 100%;
+			    max-width: 400px;
+			    box-sizing: border-box;
+			    margin: 0 auto;
+			}
+			
+			table {
+			    width: 100%;
+			    border-collapse: collapse;
+			    margin-bottom: 20px;
+			}
 	
 	        th {
 	            text-align: left;
@@ -82,14 +83,18 @@
 	            border: 1px solid #ccc;
 	        }
 	        
+	        input[type="radio"]:focus {
+	            border-color: #4CAF50;
+	        }
+	        
 	        input[type="number"] {
 	            width: 100%;
-	            padding: 10px;
-	            font-size: 16px;
-	            border: 1px solid #ccc;
-	            border-radius: 4px;
-	            outline: none;
-	            transition: border-color 0.3s;
+			    padding: 4px 10px;
+			    font-size: 16px;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    outline: none;
+			    transition: border-color 0.3s;
 	        }
 	
 	        input[type="number"]:focus {
@@ -98,12 +103,12 @@
 	        
 	        input[type="text"] {
 	            width: 100%;
-	            padding: 10px;
-	            font-size: 16px;
-	            border: 1px solid #ccc;
-	            border-radius: 4px;
-	            outline: none;
-	            transition: border-color 0.3s;
+			    padding: 4px 10px;
+			    font-size: 16px;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    outline: none;
+			    transition: border-color 0.3s;
 	        }
 	
 	        input[type="text"]:focus {
@@ -145,7 +150,8 @@
 				<tr>
 					<th>수입/지출</th>
 					<td>
-						<input type="text" name="kind" value="<%=c.getKind()%>" readonly>
+						<input type="radio" name="kind" value="수입" <% if(c.getKind().equals("수입")) {%>checked="checked"<%}%> disabled>수입
+						<input type="radio" name="kind" value="지출" <% if(c.getKind().equals("지출")) {%>checked="checked"<%}%> disabled>지출
 					</td>
 				</tr>
 				<tr>

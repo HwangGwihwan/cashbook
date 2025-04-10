@@ -20,17 +20,23 @@ public class CategoryDao {
 		conn.close();
 	}
 	
-	public ArrayList<Category> selectCategoryList() throws ClassNotFoundException, SQLException { // 전체 리스트 출력
+	public ArrayList<Category> selectCategoryList(Paging p) throws ClassNotFoundException, SQLException { // 전체 리스트 출력
 		ArrayList<Category> list = new ArrayList<Category>();
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select category_no categoryNo, kind, title, createdate from category order by category_no asc";
+		String sql = "select ct.category_no categoryNo, ct.kind kind, ct.title title, ct.createdate createdate, t.cnt cnt from category ct left outer join"
+				+ " (select category_no, count(*) cnt from cash group by category_no) t"
+				+ " on ct.category_no = t.category_no"
+				+ " order by categoryNO asc"
+				+ " limit ?, ?";
 		
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
 		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, p.getBeginRow());
+		stmt.setInt(2, p.getRowPerPage());
 		rs = stmt.executeQuery();
 		
 		while (rs.next()) {
@@ -39,6 +45,7 @@ public class CategoryDao {
 			c.setKind(rs.getString("kind"));
 			c.setTitle(rs.getString("title"));
 			c.setCreatedate(rs.getString("createdate"));
+			c.setCount(rs.getInt("cnt"));
 			
 			list.add(c);
 		}
@@ -72,7 +79,27 @@ public class CategoryDao {
 		return c;
 	}
 	
-	public void updateCategoryTitle(int num, String title) throws ClassNotFoundException, SQLException {
+	public int totalRow() throws ClassNotFoundException, SQLException {
+		int total = 0;
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select count(*) cnt from category";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		if (rs.next()) {
+			total = rs.getInt("cnt");
+		}
+		
+		return total;
+	}
+	
+	public void updateCategoryTitle(int num, String title) throws ClassNotFoundException, SQLException { // 수정
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -87,5 +114,17 @@ public class CategoryDao {
 		conn.close();	
 	}
 	
-	
+	public void deleteCategory(int num) throws ClassNotFoundException, SQLException { // 삭제
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = "delet from category where category_no = ?";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, num);
+		stmt.executeUpdate();
+		
+		conn.close();
+	}
 }

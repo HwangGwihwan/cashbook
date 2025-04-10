@@ -5,6 +5,7 @@ public class Category {
 	private String kind;
 	private String title;
 	private String createdate;
+	private int count;
 	
 	public int getCateoryNo() {
 		return cateoryNo;
@@ -30,10 +31,16 @@ public class Category {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	
 	@Override
 	public String toString() {
 		return "Category [cateoryNo=" + cateoryNo + ", kind=" + kind + ", title=" + title + ", createdate=" + createdate
-				+ "]";
+				+ ", count=" + count + "]";
 	}
 }

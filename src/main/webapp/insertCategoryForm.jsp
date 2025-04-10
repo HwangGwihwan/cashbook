@@ -42,20 +42,21 @@
 	
 	        /* 폼 스타일 */
 	        form {
-	            background-color: #fff;
-	            padding: 20px;
-	            border-radius: 8px;
-	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	            width: 100%;
-	            max-width: 600px;
-	            box-sizing: border-box;
-	        }
-	
-	        table {
-	            width: 100%;
-	            margin-bottom: 20px;
-	            border-collapse: collapse;
-	        }
+			    background-color: #fff;
+			    padding: 20px;
+			    border-radius: 8px;
+			    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			    width: 100%;
+			    max-width: 400px;
+			    box-sizing: border-box;
+			    margin: 0 auto;
+			}
+			
+			table {
+			    width: 100%;
+			    border-collapse: collapse;
+			    margin-bottom: 20px;
+			}
 	
 	        th {
 	            text-align: left;
@@ -72,16 +73,20 @@
 	            font-size: 16px;
 	            border: 1px solid #ccc;
 	        }
+	        	
+	        input[type="radio"]:focus {
+	            border-color: #4CAF50;
+	        }
 	        
 	        input[type="text"] {
-	            width: 100%;
-	            padding: 10px;
-	            font-size: 16px;
-	            border: 1px solid #ccc;
-	            border-radius: 4px;
-	            outline: none;
-	            transition: border-color 0.3s;
-	        }
+			    width: 100%;
+			    padding: 4px 10px;
+			    font-size: 16px;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    outline: none;
+			    transition: border-color 0.3s;
+			}
 	
 	        input[type="text"]:focus {
 	            border-color: #4CAF50;
@@ -110,13 +115,14 @@
 	    </style>
 	</head>
 	<body>
-		<h1>카테고리 추기</h1>
+		<h1>카테고리 추가</h1>
 		<form action="/cashbook/insertCategoryAction.jsp" method="post">
 			<table>
 				<tr>
 					<th>수입/지출</th>
 					<td>
-						<input type="text" name="kind" placeholder="수입 또는 지출 입력">
+						<input type="radio" name="kind" value="수입">수입
+						<input type="radio" name="kind" value="지출">지출
 					</td>
 				</tr>
 				<tr>
