@@ -65,6 +65,7 @@ public class Cash {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
 	@Override
 	public String toString() {
 		return "Cash [cashNo=" + cashNo + ", categoryNo=" + categoryNo + ", cash_date=" + cash_date + ", amount="

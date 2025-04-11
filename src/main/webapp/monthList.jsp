@@ -148,10 +148,21 @@
 			    margin-right: 20px;
 			}
 			
+			.link {
+			  text-decoration: none;
+			  color: inherit;
+			}
+			
+			.link:hover {
+			  text-decoration: none;
+			  color: inherit;
+			}
+
 			table {
 				margin: 0 auto;
 				margin-top: 40px;
 				border-collapse: collapse;
+				text-align: center;
 				width: 95%;
 				background-color: #fff;
 				box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -161,13 +172,13 @@
 				border: 1px solid #ccc;
 				padding: 15px;
 				width: 14.28%;
-				text-align: center;
 				font-size: 16px;
 			}
 	
 			th {
 				background-color: #f0f0f0;
 				color: #333;
+
 				heigth: 40px;
 			}
 	
@@ -175,7 +186,11 @@
 				background-color: #fafafa;
 				height: 70px;
 			}
-	
+		    
+		    td:hover {
+	            background-color: #ddd;
+	        }
+	         
 			th:nth-child(1) { color: red; }    /* 일요일 */
 			th:nth-child(7) { color: blue; }   /* 토요일 */
 		</style>
@@ -219,7 +234,7 @@
 							System.out.println("monthList#date: " + date);
 							ArrayList<Cash> list = cashDao.selectCashByDate(date);
 					%>
-							<%=d%><br>
+							<a href="/cashbook/dateList.jsp?date=<%=date%>" class="link"><%=d%></a><br>
 					<%
 							date = tmp; // 날짜가 빠진 상태로 다시 되돌림
 							for (Cash c : list) {

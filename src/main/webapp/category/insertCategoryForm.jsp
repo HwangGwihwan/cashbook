@@ -126,9 +126,9 @@
 					</td>
 				</tr>
 				<tr>
-					<th>분류</th>
+					<th>카테고리</th>
 					<td>
-						<input type="text" name="title" placeholder="분류 입력">
+						<input type="text" name="title" placeholder="카테고리 입력">
 					</td>
 				</tr>
 			</table>

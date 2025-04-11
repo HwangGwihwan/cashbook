@@ -77,6 +77,32 @@ public class CategoryDao {
 		return list;
 	}
 	
+	public ArrayList<Category> selectCategoryListByKind(String kind) throws ClassNotFoundException, SQLException { // 수입/지출별로 카테고리 검색하기
+		ArrayList<Category> list = new ArrayList<Category>();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select category_no categoryNo, title from category where kind = ?";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, kind);
+		rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+			Category c = new Category();
+			c.setCateoryNo(rs.getInt("categoryNo"));
+			c.setTitle(rs.getString("title"));
+			
+			list.add(c);
+		}
+		
+		conn.close();
+		return list;
+	}
+	
 	public Category selectCategoryOne(int num) throws ClassNotFoundException, SQLException { // 한 개만 선택
 		Category c = null;
 		
