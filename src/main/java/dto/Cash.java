@@ -10,6 +10,7 @@ public class Cash {
 	private String createdate;
 	private String updatedate;
 	private Category category;
+	private Receit receit;
 	
 	public int getCashNo() {
 		return cashNo;
@@ -65,11 +66,10 @@ public class Cash {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
-	@Override
-	public String toString() {
-		return "Cash [cashNo=" + cashNo + ", categoryNo=" + categoryNo + ", cash_date=" + cash_date + ", amount="
-				+ amount + ", memo=" + memo + ", color=" + color + ", createdate=" + createdate + ", updatedate="
-				+ updatedate + "]";
+	public Receit getReceit() {
+		return receit;
+	}
+	public void setReceit(Receit receit) {
+		this.receit = receit;
 	}
 }

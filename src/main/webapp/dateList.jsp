@@ -29,7 +29,6 @@
 		<meta charset="UTF-8">
 		<title>날짜별 수입/지출</title>
 		<style>
-		
 		body {
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 			background-color: #f9f9f9;
@@ -46,7 +45,7 @@
 		.top-links {
 			position: absolute;
 			top: 20px;
-			right: 20px;
+			right: 300px;
 			display: flex;
 			gap: 10px;
 		}
@@ -96,6 +95,11 @@
 			width: 40%;
 			margin: 30px auto;
 		}
+		
+		a {
+			text-decoration: none; /* 밑줄 제거 */
+			color: inherit; /* 상위 요소에서 상속받기 */
+		}
 		</style>
 	</head>
 	<body>
@@ -121,10 +125,28 @@
 					}
 			%>
 					<tr>
-						<td><%=c.getCategory().getKind()%></td>
-						<td><%=c.getCategory().getTitle()%></td>
-						<td><%=c.getAmount()%></td>
-						<td><%=c.getMemo()%></td>
+						<td>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>"><%=c.getCategory().getKind()%></a>
+							
+						</td>
+						<td>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>">
+								<%=c.getCategory().getTitle()%>
+								<% 
+									if (c.getReceit().getFilename() != null) { // 영수증이 있다면
+								%>
+										📄
+								<%
+									}
+								%>
+							</a>
+						</td>
+						<td>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>"><%=c.getAmount()%></a>
+						</td>
+						<td>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>"><%=c.getMemo()%></a>
+						</td>
 					</tr>
 			<%
 				}

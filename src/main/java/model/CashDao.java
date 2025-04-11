@@ -2,7 +2,6 @@ package model;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import dto.*;
 
@@ -14,8 +13,10 @@ public class CashDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select cs.cash_no cashNo, cs.category_no categoryNo, ct.kind, ct.title, cs.cash_date cashDate, cs.amount, cs.memo, cs.color"
-				+ " from cash cs INNER JOIN category ct on cs.category_no = ct.category_no where cash_date = ?";
+		String sql = "select cs.cash_no cashNo, cs.category_no categoryNo, ct.kind, ct.title, cs.cash_date cashDate, cs.amount, cs.memo, cs.color, r.filename"
+				+ " from cash cs INNER JOIN category ct on cs.category_no = ct.category_no"
+				+ " left outer join receit r on cs.cash_no = r.cash_no"
+				+ " where cash_date = ?";
 		
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
 		stmt = conn.prepareStatement(sql);
@@ -34,13 +35,49 @@ public class CashDao {
 			Category category = new Category();
 			category.setKind(rs.getString("kind"));
 			category.setTitle(rs.getString("title"));
-			
 			cash.setCategory(category);
+			
+			Receit receit = new Receit();
+			receit.setFilename(rs.getString("filename"));
+			cash.setReceit(receit);
+			
 			list.add(cash);
 		}
 		
 		conn.close();
 		return list;
+	}
+	
+	public Cash selectCashOne(int num) throws ClassNotFoundException, SQLException { // 하나 선택
+			Cash cash = null;
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			String sql = "select cs.cash_date, ct.kind, ct.title, cs.amount, cs.memo"
+					+ " from cash cs INNER JOIN category ct on cs.category_no = ct.category_no where cash_no = ?";
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, num);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				cash = new Cash();
+				cash.setCash_date(rs.getString("cash_date"));
+				cash.setAmount(rs.getInt("amount"));
+				cash.setMemo(rs.getString("memo"));
+				
+				Category category = new Category();
+				category.setKind(rs.getString("kind"));
+				category.setTitle(rs.getString("title"));
+				
+				cash.setCategory(category);
+			}
+			
+			conn.close();
+			return cash;
 	}
 	
 	public void insertCash(Cash c) throws ClassNotFoundException, SQLException { // 입력
@@ -61,4 +98,34 @@ public class CashDao {
 		conn.close();
 	}
 
+	public void updateCashOne(Cash c) throws ClassNotFoundException, SQLException { // 수정
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = "update cash set amount = ?, memo = ?, color = ? where cash_no = ?";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, c.getAmount());
+		stmt.setString(2, c.getMemo());
+		stmt.setString(3, c.getColor());
+		stmt.setInt(4, c.getCashNo());
+		stmt.executeUpdate();
+		
+		conn.close();
+	}
+	
+	public void deleteCashOne(int num) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = "delete from cash where cash_no = ?";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, num);
+		stmt.executeUpdate();
+		
+		conn.close();
+	}
 }

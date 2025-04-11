@@ -231,7 +231,6 @@
 							} else {
 								date += d;
 							}
-							System.out.println("monthList#date: " + date);
 							ArrayList<Cash> list = cashDao.selectCashByDate(date);
 					%>
 							<a href="/cashbook/dateList.jsp?date=<%=date%>" class="link"><%=d%></a><br>

@@ -12,9 +12,13 @@
 	
 	// dateList.jsp -> 수입/지출 입력(String cashDate) ->
 	String cashDate = request.getParameter("cashDate");
-	
 	// insertCashForm.jsp -> kind 선택(String kind)
 	String kind = request.getParameter("kind");
+	
+	System.out.println("insertCashForm#cashDate: " + cashDate);
+	System.out.println("insertCashForm#kind: " + kind);
+	
+	
 	ArrayList<Category> list = null;
 	
 	if (kind != null) { // insertCashForm.jsp에서 kind선택 후 재요청
