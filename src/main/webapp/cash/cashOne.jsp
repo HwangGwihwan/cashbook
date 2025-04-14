@@ -1,3 +1,4 @@
+<%@ page import="java.text.DecimalFormat"%>
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -114,7 +115,13 @@
 			</tr>
 			<tr>
 				<th>금액</th>
-				<td><%=cash.getAmount()%></td>
+				<td>
+				<%
+					DecimalFormat df = new DecimalFormat("###,###");
+					String money = df.format(cash.getAmount());
+				%>
+					<%=money%>원
+				</td>
 			</tr>
 			<tr>
 				<th>메모</th>

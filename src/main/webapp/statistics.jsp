@@ -1,4 +1,5 @@
-<%@page import="java.util.*"%>
+<%@ page import="java.text.DecimalFormat"%>
+<%@ page import="java.util.*"%>
 <%@ page import="model.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
@@ -26,96 +27,120 @@
 		<meta charset="UTF-8">
 		<title>수입/지출 통계</title>
 		<style>
-			body {
-				font-family: Arial, sans-serif;
-				background-color: #f7f9fc;
+			* {
+				box-sizing: border-box;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 				margin: 0;
-				padding: 20px;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
+				padding: 0;
+			}
+		
+			body {
+				background-color: #f8f9fa;
+				padding: 40px;
 				color: #333;
 			}
-	
+		
 			h1 {
-				font-size: 28px;
-				margin-bottom: 20px;
+				margin-bottom: 30px;
+				text-align: center;
+				color: #2d6a4f;
 			}
-	
+		
 			form {
-				margin-bottom: 20px;
+				margin-bottom: 40px;
 				display: flex;
-				align-items: center;
+				justify-content: center;
 				gap: 10px;
+				align-items: center;
 			}
-	
+		
 			select, button {
 				padding: 8px 12px;
-				font-size: 16px;
-				border-radius: 4px;
+				font-size: 14px;
+				border-radius: 6px;
 				border: 1px solid #ccc;
 			}
-	
+		
 			button {
-				background-color: transparent;
-				color: #4CAF50;
-				border: 1px solid #4CAF50;
+				background-color: #2d6a4f;
+				color: white;
+				border: none;
 				cursor: pointer;
-				transition: background-color 0.3s, color 0.3s;
 			}
-	
+		
 			button:hover {
-				background-color: #4CAF50;
-				color: #fff;
+				background-color: #1b4332;
 			}
-	
-			.table-wrapper {
-				width: 80%;
-				max-width: 1000px;
-				margin-bottom: 30px;
-			}
-	
+		
 			table {
 				width: 100%;
 				border-collapse: collapse;
-				margin-bottom: 20px;
-				text-align: center;
+				margin-bottom: 40px;
+				background-color: white;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+				border-radius: 8px;
+				overflow: hidden;
 			}
-	
-			th, td {
-				padding: 10px;
-				border: 1px solid #ccc;
-			}
-	
+		
 			th {
-				background-color: #4CAF50;
-				color: white;
+				background-color: #95d5b2;
+				color: #000;
+				padding: 12px;
+				text-align: center;
+				font-weight: 600;
 			}
-	
-			tr:nth-child(even) {
-				background-color: #f2f2f2;
+		
+			td {
+				padding: 10px;
+				text-align: center;
+				border-top: 1px solid #dee2e6;
 			}
-	
-			tr:hover {
-				background-color: #e9e9e9;
+		
+			tr:nth-child(even) td {
+				background-color: #f1f3f5;
 			}
-	
+		
+			/* 📊 월별 수입/지출 통계 테이블 가로 배치용 */
 			.monthly-section {
 				display: flex;
 				justify-content: space-between;
 				gap: 20px;
-				width: 100%;
-				flex-wrap: nowrap; /* 한 줄에 고정 */
+				margin-bottom: 40px;
 			}
-	
+		
+			.monthly-table-wrapper {
+				width: 49%;
+			}
+		
 			.monthly-table {
-				width: 48%; /* 가로로 2개가 나란히 놓일 수 있도록 */
-				min-width: 300px;
+				width: 100%;
+				table-layout: fixed;
+			}
+			
+			.calendar-link {
+				position: absolute;
+				top: 60px;
+				left: 30px;
+				text-decoration: none;
+				color: #2d6a4f;
+				font-weight: bold;
+				font-size: 16px;
+				background-color: #d8f3dc;
+				padding: 6px 12px;
+				border-radius: 6px;
+				transition: background-color 0.2s, color 0.2s;
+				box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+			}
+		
+			.calendar-link:hover {
+				background-color: #95d5b2;
+				color: #081c15;
 			}
 		</style>
 	</head>
 	<body>
 		<h1>수입/지출 통계</h1>
+		<a href="/cashbook/monthList.jsp" class="calendar-link">달력으로</a>
 		<form action="/cashbook/statistics.jsp" method="post">
 			<span>연도</span>
 			<select name="year">
@@ -127,103 +152,129 @@
 			</select>
 			<button type="submit">선택</button>
 		</form>
-		
-		<div class="table-wrapper">
-			<table>
-				<tr>
-					<th colspan="3">전체 수입/지출 통계</th>
-				</tr>
-				<tr>
-					<th>종류</th>
-					<th>건수</th>
-					<th>총액</th>
-				</tr>
-				<%
-					for (HashMap<String, Object> map : totalList) {
-				%>
-						<tr>
-							<td><%=map.get("kind")%></td>
-							<td><%=map.get("count")%></td>
-							<td><%=map.get("sum")%>원</td>
-						</tr>
-				<%
-					}
-				%>
-			</table>
-		</div>
-		
-		<div class="monthly-section">
-			<table class="monthly-table">
-				<tr>
-					<th colspan="3"><%=year%>년 월별 수입 통계
-				</tr>
-				<tr>
-					<th>월</th>
-					<th>건수</th>
-					<th>총액</th>
-				</tr>
-				<%
-					for (HashMap<String, Object> map : monthTotalList) {
-						if (map.get("kind").equals("수입")) {
-				%>
-							<tr>
-								<td><%=map.get("month")%></td>
-								<td><%=map.get("count")%></td>
-								<td><%=map.get("sum")%>원</td>
-							</tr>
-				<%			
-						}
-					}
-				%>
-			</table>
-			<table class="monthly-table">
-				<tr>
-					<th colspan="3"><%=year%>년 월별 지출 통계
-				</tr>
-				<tr>
-					<th>월</th>
-					<th>건수</th>
-					<th>총액</th>
-				</tr>
-				<%
-					for (HashMap<String, Object> map : monthTotalList) {
-						if (map.get("kind").equals("지출")) {
-				%>
-							<tr>
-								<td><%=map.get("month")%></td>
-								<td><%=map.get("count")%></td>
-								<td><%=map.get("sum")%>원</td>
-							</tr>
-				<%			
-						}
-					}
-				%>
-			</table>
-		</div>
 
-		<div class="table-wrapper">
-			<table>
-				<tr>
-					<th colspan="3"><%=year%>년 수입/지출 통계
-				</tr>
-				<tr>
-					<th>종류</th>
-					<th>건수</th>
-					<th>총액</th>
-				</tr>
-				<%
-					for (HashMap<String, Object> map : yearTotalList) {
-				%>
-						<tr>
-							<td><%=map.get("kind")%></td>
-							<td><%=map.get("count")%></td>
-							<td><%=map.get("sum")%>원</td>
-						</tr>
-				<%
-					}
-				%>
-			</table>
+		<table>
+			<tr>
+				<th colspan="3">전체 수입/지출 통계</th>
+			</tr>
+			<tr>
+				<th>종류</th>
+				<th>건수</th>
+				<th>총액</th>
+			</tr>
+			<%
+				for (HashMap<String, Object> map : totalList) {
+					int sum = (int)(map.get("sum"));
+					ArrayList<String> list = new ArrayList<>();
+			%>
+					<tr>
+						<td><%=map.get("kind")%></td>
+						<td><%=map.get("count")%></td>
+						<td>
+						<%
+							DecimalFormat df = new DecimalFormat("###,###");
+							String money = df.format(map.get("sum"));
+						%>
+							<%=money%>원
+						</td>
+					</tr>
+			<%
+				}
+			%>
+		</table>
+
+		<div class="monthly-section">
+			<div class="monthly-table-wrapper">
+				<table class="monthly-table">
+					<tr>
+						<th colspan="3"><%=year%>년 월별 수입 통계
+					</tr>
+					<tr>
+						<th>월</th>
+						<th>건수</th>
+						<th>총액</th>
+					</tr>
+					<%
+						for (HashMap<String, Object> map : monthTotalList) {
+							if (map.get("kind").equals("수입")) {
+					%>
+								<tr>
+									<td><%=map.get("month")%></td>
+									<td><%=map.get("count")%></td>
+									<td>
+									<%
+										DecimalFormat df = new DecimalFormat("###,###");
+										String money = df.format(map.get("sum"));
+									%>
+										<%=money%>원
+									</td>
+								</tr>
+					<%			
+							}
+						}
+					%>
+				</table>
+			</div>
+		
+			<div class="monthly-table-wrapper">
+				<table>
+					<tr>
+						<th colspan="3"><%=year%>년 월별 지출 통계
+					</tr>
+					<tr>
+						<th>월</th>
+						<th>건수</th>
+						<th>총액</th>
+					</tr>
+					<%
+						for (HashMap<String, Object> map : monthTotalList) {
+							if (map.get("kind").equals("지출")) {
+					%>
+								<tr>
+									<td><%=map.get("month")%></td>
+									<td><%=map.get("count")%></td>
+									<td>
+									<%
+										DecimalFormat df = new DecimalFormat("###,###");
+										String money = df.format(map.get("sum"));
+									%>
+										<%=money%>원
+									</td>
+								</tr>
+					<%			
+							}
+						}
+					%>
+				</table>	
+			</div>
 		</div>
 		
+		<table>
+			<tr>
+				<th colspan="3"><%=year%>년 수입/지출 통계
+			</tr>
+			<tr>
+				<th>종류</th>
+				<th>건수</th>
+				<th>총액</th>
+			</tr>
+			<%
+				for (HashMap<String, Object> map : yearTotalList) {
+			%>
+					<tr>
+						<td><%=map.get("kind")%></td>
+						<td><%=map.get("count")%></td>
+						<td>
+						<%
+							DecimalFormat df = new DecimalFormat("###,###");
+							String money = df.format(map.get("sum"));
+						%>
+							<%=money%>원
+						</td>
+					</tr>
+			<%
+				}
+			%>
+		</table>
 	</body>
 </html>

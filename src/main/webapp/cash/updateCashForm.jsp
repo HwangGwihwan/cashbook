@@ -1,3 +1,4 @@
+<%@ page import="java.text.DecimalFormat"%>
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -130,7 +131,11 @@
 				<input type="text" name="category" value="<%=cash.getCategory().getTitle()%>" readonly>
 			
 				<label>금액</label>
-				<input type="text" name="amount" value="<%=cash.getAmount()%>">
+				<%
+					DecimalFormat df = new DecimalFormat("###,###");
+					String money = df.format(cash.getAmount());
+				%>
+				<input type="text" name="amount" value="<%=money%>">
 			
 				<label>메모</label>
 				<input type="text" name="memo" value="<%=cash.getMemo()%>">

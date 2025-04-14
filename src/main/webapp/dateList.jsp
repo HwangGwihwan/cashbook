@@ -1,3 +1,4 @@
+<%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.util.*"%>
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
@@ -121,7 +122,7 @@
 					if (c.getCategory().getKind().equals("수입")) { // 총 수입
 						incomeSum += c.getAmount();
 					} else if (c.getCategory().getKind().equals("지출")) { // 총 지출
-						 expenditureSum += c.getAmount();
+						expenditureSum += c.getAmount();
 					}
 			%>
 					<tr>
@@ -142,7 +143,13 @@
 							</a>
 						</td>
 						<td>
-							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>"><%=c.getAmount()%></a>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>">
+							<%
+								DecimalFormat df = new DecimalFormat("###,###");
+								String money = df.format(c.getAmount());
+							%>
+										<%=money%>원
+							</a>
 						</td>
 						<td>
 							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=c.getCashNo()%>"><%=c.getMemo()%></a>
@@ -159,8 +166,19 @@
 				<th>총 지출</th>
 			</tr>
 			<tr>
-				<td><%=incomeSum%>원</td>
-				<td><%=expenditureSum%>원</td>
+				<td>
+				<%
+					DecimalFormat df = new DecimalFormat("###,###");
+					String incomeMoney = df.format(incomeSum);
+				%>
+							<%=incomeMoney%>원
+				</td>
+				<td>
+				<%
+					String expenditureMoney = df.format(expenditureSum);
+				%>
+							<%=expenditureMoney%>원
+				</td>
 			</tr>
 		</table>
 	</body>

@@ -1,3 +1,4 @@
+<%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
@@ -241,8 +242,13 @@
 					%>
 								<span style="color:<%=c.getColor()%>;">
 									[<%=c.getCategory().getKind()%>]
-									<%=c.getCategory().getTitle()%>
-									- <%=c.getAmount()%><br>
+									<%=c.getCategory().getTitle()%> - 
+									<%
+										DecimalFormat df = new DecimalFormat("###,###");
+										String money = df.format(c.getAmount());
+									%>
+										<%=money%>
+									<br>
 								</span>
 					<%
 							}
