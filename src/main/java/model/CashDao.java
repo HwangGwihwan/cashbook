@@ -2,6 +2,7 @@ package model;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dto.*;
 
@@ -115,7 +116,7 @@ public class CashDao {
 		conn.close();
 	}
 	
-	public void deleteCashOne(int num) throws ClassNotFoundException, SQLException {
+	public void deleteCashOne(int num) throws ClassNotFoundException, SQLException { // 삭제
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -127,5 +128,86 @@ public class CashDao {
 		stmt.executeUpdate();
 		
 		conn.close();
+	}
+	
+	public ArrayList<HashMap<String, Object>> totalAmount() throws ClassNotFoundException, SQLException { // 전체 수입/지출 총액
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select kind, count(*) count, sum(cs.amount) sum from cash cs inner join category ct on cs.category_no = ct.category_no group by ct.kind";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("kind", rs.getString("kind"));
+			map.put("count", rs.getInt("count"));
+			map.put("sum", rs.getInt("sum"));
+			
+			list.add(map);
+		}
+		
+		conn.close();
+		return list;
+	}
+	
+	public ArrayList<HashMap<String, Object>> yearTotalAmount(int year) throws ClassNotFoundException, SQLException { // 특정년도의 수입/지출 통계
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select year(cash_date) year, kind, count(*) count, sum(cs.amount) sum from cash cs inner join category ct on cs.category_no = ct.category_no"
+					+ " where year(cash_date) = ? group by year(cash_date), ct.kind";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, year);
+		rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("kind", rs.getString("kind"));
+			map.put("count", rs.getInt("count"));
+			map.put("sum", rs.getInt("sum"));
+			
+			list.add(map);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<HashMap<String, Object>> monthTotalAmount(int year) throws ClassNotFoundException, SQLException { // 특정년도의 월별 수입/지출 통계
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select month(cash_date) month, kind, count(*) count, sum(cs.amount) sum from cash cs inner join category ct on cs.category_no = ct.category_no"
+					+ " where year(cash_date) = ? group by month(cash_date), ct.kind order by month(cash_date)";
+		
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cashbook", "root", "java1234");
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, year);
+		rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("month", rs.getString("month"));
+			map.put("kind", rs.getString("kind"));
+			map.put("count", rs.getInt("count"));
+			map.put("sum", rs.getInt("sum"));
+			
+			list.add(map);
+		}
+		
+		return list;
 	}
 }

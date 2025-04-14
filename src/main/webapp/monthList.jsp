@@ -201,6 +201,7 @@
 		</h1>
 		<div class="category-link">
 			<a href="/cashbook/category/categoryList.jsp">카테고리</a>	
+			<a href="/cashbook/statistics.jsp">통계자료</a>
 		</div>
 		<div class="top-links">
 	        <a href="/cashbook/login/logout.jsp">로그아웃</a>
