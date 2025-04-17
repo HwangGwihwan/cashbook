@@ -29,7 +29,7 @@
 	
 	// Request 입력값 유효성 검정
 	if(!ext.equals(".png")) {
-		response.sendRedirect("/cashbook/cash/insertReceitForm.jsp?msg=error");
+		response.sendRedirect("/cashbook/cash/insertReceitForm.jsp?cashNo=" + cashNo + "&msg=error");
 		return; // JSP 코드진행을 종료
 	}
 	
